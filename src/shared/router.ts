@@ -5,15 +5,15 @@ import {
   HTMLComponent,
 } from "./framework.ts";
 
-export type Route = {
+export type Route<TParams = any> = {
   path: string;
-  component: () => Component;
+  component: (params?: TParams) => Component;
 };
 
-export class Router {
-  routes: Route[] = [];
+export class Router<TRoutes extends Route[] = Route[]> {
+  routes: TRoutes;
 
-  constructor(routes: Route[]) {
+  constructor(routes: TRoutes) {
     this.routes = routes;
   }
 
@@ -23,11 +23,13 @@ export class Router {
   }
 }
 
-export class RouterComponent extends Component {
-  router: Router;
+export class RouterComponent<
+  TRouter extends Router = Router
+> extends Component {
+  router: TRouter;
   currentPath: string;
 
-  constructor(router: Router, initialPath: string = "/") {
+  constructor(router: TRouter, initialPath: string = "/") {
     super();
     this.router = router;
     this.currentPath = initialPath;

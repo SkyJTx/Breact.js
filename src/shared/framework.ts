@@ -110,17 +110,19 @@ export function useEffect(effect: () => void | (() => void), deps?: any[]) {
 }
 
 // Base class for HTML elements
-export class HTMLComponent extends Component {
+export class HTMLComponent<
+  TProps extends Record<string, any> = Record<string, any>
+> extends Component {
   tag: string;
-  props: Record<string, any>;
+  props: TProps;
   children: Child[];
 
   constructor(
     tag: string,
-    props: Record<string, any> = {},
+    props: TProps = {} as TProps,
     children: Child[] = []
   ) {
-    super(props.key);
+    super((props as any).key);
     this.tag = tag;
     this.props = props;
     this.children = children;

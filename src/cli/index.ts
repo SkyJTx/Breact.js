@@ -11,14 +11,14 @@ console.log(`Creating Breact.js app (${template}) in ${targetDir}...`);
 
 await mkdir(targetDir, { recursive: true });
 
-  const commonDependencies = {
-    "@skyjt/breact.js": "latest",
-    elysia: "latest",
-    "@elysiajs/swagger": "latest",
-  };
-  const commonDevDependencies = {
-    "bun-types": "latest",
-  };
+const commonDependencies = {
+  "@skyjt/breact.js": "latest",
+  elysia: "latest",
+  "@elysiajs/swagger": "latest",
+};
+const commonDevDependencies = {
+  "bun-types": "latest",
+};
 
 if (template === "example") {
   // Create Example Project
@@ -63,7 +63,7 @@ if (template === "example") {
 
   // src/shared/components.ts
   const componentsTs = `
-import { Component, HTMLComponent, useState, ClientComponent, ServerComponent } from 'breact.js';
+import { Component, HTMLComponent, useState, ClientComponent, ServerComponent } from '@skyjt/breact.js';
 
 @ClientComponent()
 export class Counter extends Component {
@@ -105,7 +105,7 @@ export class Navigation extends Component {
 
   // src/shared/pages.ts
   const pagesTs = `
-import { Component, HTMLComponent } from 'breact.js';
+import { Component, HTMLComponent } from '@skyjt/breact.js';
 import { Counter, ServerMessage, Navigation } from './components.ts';
 
 export class HomePage extends Component {
@@ -136,7 +136,7 @@ export class DashboardPage extends Component {
 
   // src/shared/routes.ts
   const routesTs = `
-import { Router } from 'breact.js';
+import { Router } from '@skyjt/breact.js';
 import { HomePage, DashboardPage } from './pages.ts';
 
 export const router = new Router([
@@ -148,7 +148,7 @@ export const router = new Router([
 
   // src/client.ts
   const clientTs = `
-import { render, RouterComponent } from 'breact.js';
+import { render, RouterComponent } from '@skyjt/breact.js';
 import { router } from './shared/routes.ts';
 
 console.log('Hydrating...');
@@ -161,7 +161,7 @@ render(new RouterComponent(router, path), document.body);
   const serverTs = `
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
-import { renderToString, RouterComponent } from 'breact.js';
+import { renderToString, RouterComponent } from '@skyjt/breact.js';
 import { router } from './shared/routes.ts';
 
 const app = new Elysia()
@@ -212,7 +212,7 @@ console.log(\`🦊 Server running at \${app.server?.hostname}:\${app.server?.por
   );
 
   const indexTs = `
-import { app } from 'breact.js';
+import { app } from '@skyjt/breact.js';
 
 app.listen(3000);
 console.log('Server running on http://localhost:3000');
@@ -221,10 +221,8 @@ console.log('Server running on http://localhost:3000');
 }
 
 console.log("Done! Run:");
-console.log("  (Make sure you ran 'bun link' in the Breact.js folder first)");
 console.log(`cd ${projectName}`);
 console.log("bun install");
-console.log("bun link breact.js");
 if (template === "example") {
   console.log("bun run dev");
 } else {
