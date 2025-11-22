@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
-import { mkdir } from "node:fs/promises";
-import { join } from "path";
+const { mkdir } = await import("node:fs/promises");
+const { join } = await import("path");
 
 const args = process.argv.slice(2);
 const projectName = args[0] || "my-breact-app";

@@ -59,6 +59,8 @@ async function build() {
     "./dist/cli",
     "--format",
     "esm",
+    "--external:node:fs/promises",
+    "--external:path",
   ]);
   if (cliCode !== 0) {
     console.error("❌ CLI build failed");
