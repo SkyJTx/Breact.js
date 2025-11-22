@@ -1,6 +1,6 @@
 {
   "name": "@skyjt/breact",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "A full-stack framework using Bun, TypeScript, Elysia.js and a React-like frontend framework",
   "publishConfig": {
     "access": "public"
@@ -35,11 +35,12 @@
     "breact": "./cli/index.js"
   },
   "scripts": {
-    "build": "bun run build:lib && bun run build:cli",
+    "build": "bun run build.ts",
     "build:lib": "bun build ./index.ts --outdir ./dist --format esm --sourcemap=inline",
     "build:cli": "bun build ./src/cli/index.ts --outdir ./dist/cli --format esm --sourcemap=inline",
     "check": "bun tsc --noEmit",
-    "dev": "bun run check"
+    "dev": "bun run check",
+    "prepublishOnly": "bun run build"
   },
   "keywords": [
     "framework",

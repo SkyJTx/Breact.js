@@ -69,12 +69,45 @@ async function build() {
 
   // Copy package.json, README, and LICENSE
   console.log("\nCopying metadata files...");
-  try {
-    await copyFile("package.json", "dist/package.json");
-    console.log("  ✓ package.json");
-  } catch {
-    console.error("  ✗ Failed to copy package.json");
-  }
+
+  // Update package.json exports for publishing from dist/
+  const pkg = await Bun.file("package.json").json();
+
+  // Fix paths - remove ./dist/ prefix since we publish from dist folder
+  pkg.main = "./index.js";
+  pkg.module = "./index.js";
+  pkg.types = "./index.d.ts";
+  pkg.exports = {
+    ".": {
+      import: "./index.js",
+      types: "./index.d.ts",
+    },
+    "./client": {
+      import: "./client/index.js",
+      types: "./client/index.d.ts",
+    },
+    "./server": {
+      import: "./server/index.js",
+      types: "./server/index.d.ts",
+    },
+    "./shared": {
+      import: "./shared/index.js",
+      types: "./shared/index.d.ts",
+    },
+  };
+
+  // Remove files array as we're publishing entire dist folder
+  delete pkg.files;
+
+  // Remove build scripts from published package
+  delete pkg.scripts.build;
+  delete pkg.scripts["build:lib"];
+  delete pkg.scripts["build:cli"];
+  delete pkg.scripts.prepublishOnly;
+  delete pkg.devDependencies;
+
+  await Bun.write("dist/package.json", JSON.stringify(pkg, null, 2));
+  console.log("  ✓ package.json (with fixed paths)");
 
   try {
     await copyFile("README.md", "dist/README.md");

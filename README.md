@@ -50,11 +50,13 @@ bun run dev
 If you see this error in a generated project, you may have created it with an older version (< 0.1.4). Solutions:
 
 1. **Create a fresh project** with the latest version:
+
    ```bash
    bunx --latest @skyjt/breact.js my-new-app example
    ```
 
 2. **Update existing project** - Replace all imports from `'breact.js'` to `'@skyjt/breact.js'`:
+
    ```typescript
    // Old (< v0.1.4)
    import { Component } from 'breact.js';
@@ -64,6 +66,7 @@ If you see this error in a generated project, you may have created it with an ol
    ```
 
 3. **Clear bunx cache** if you still get the old version:
+
    ```bash
    # On Windows
    Remove-Item -Recurse -Force $env:LOCALAPPDATA\Temp\bunx-*
@@ -102,13 +105,14 @@ bun run build:cli
 ## Publishing to npm
 
 After building:
+
 ```bash
 npm publish dist/
 ```
 
 ## Project Structure
 
-```
+`
 src/
 ├── shared/         # Framework core
 │   ├── framework.ts
@@ -126,7 +130,7 @@ src/
 
 index.ts           # Main entry point
 build.ts           # Build script
-```
+`
 
 ## Documentation
 
