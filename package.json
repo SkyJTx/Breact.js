@@ -1,15 +1,59 @@
 {
   "name": "breact.js",
-  "module": "index.ts",
+  "version": "0.1.0",
+  "description": "A full-stack framework using Bun, TypeScript, Elysia.js and a React-like frontend framework",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./server": {
+      "import": "./dist/server/index.js",
+      "types": "./dist/server/index.d.ts"
+    },
+    "./shared": {
+      "import": "./dist/shared/index.js",
+      "types": "./dist/shared/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "create-breact-app": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "bun run build:lib && bun run build:cli",
+    "build:lib": "bun build ./index.ts --outdir ./dist --format esm --sourcemap=inline",
+    "build:cli": "bun build ./src/cli/index.ts --outdir ./dist/cli --format esm --sourcemap=inline",
+    "check": "bun tsc --noEmit",
+    "dev": "bun run check"
+  },
+  "keywords": [
+    "framework",
+    "fullstack",
+    "bun",
+    "typescript",
+    "elysia",
+    "react-like",
+    "ssr",
+    "csr"
+  ],
+  "author": "SkyJTx",
+  "license": "MIT",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "bin": {
-    "create-breact-app": "./src/cli/index.ts"
   },
   "dependencies": {
     "@elysiajs/eden": "^1.4.5",

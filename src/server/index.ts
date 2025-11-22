@@ -11,3 +11,6 @@ export const app = new Elysia().use(
     },
   })
 );
+
+export { renderToString } from "./ssr.ts";
+
