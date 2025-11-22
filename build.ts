@@ -5,7 +5,7 @@
  */
 
 import { spawn } from "bun";
-import { rm } from "node:fs/promises";
+import { rm, copyFile } from "node:fs/promises";
 
 async function run(command: string, args: string[]) {
   const proc = spawn([command, ...args], {
@@ -65,8 +65,35 @@ async function build() {
     process.exit(1);
   }
 
+  // Copy package.json, README, and LICENSE
+  console.log("\nCopying metadata files...");
+  try {
+    await copyFile("package.json", "dist/package.json");
+    console.log("  ✓ package.json");
+  } catch {
+    console.error("  ✗ Failed to copy package.json");
+  }
+
+  try {
+    await copyFile("README.md", "dist/README.md");
+    console.log("  ✓ README.md");
+  } catch {
+    console.warn("  ⚠ README.md not found");
+  }
+
+  try {
+    await copyFile("LICENSE", "dist/LICENSE");
+    console.log("  ✓ LICENSE");
+  } catch {
+    console.warn("  ⚠ LICENSE not found");
+  }
+
   console.log("\n✅ Build complete!");
-  console.log("\nTo publish to npm, run: npm publish dist/");
+  console.log("\nNext steps:");
+  console.log("  1. npm publish dist/");
+  console.log(
+    "  2. Or npm publish dist/ --access public (for scoped packages)"
+  );
 }
 
 build().catch((err) => {

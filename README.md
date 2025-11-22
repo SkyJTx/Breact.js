@@ -4,29 +4,39 @@ A full-stack framework using **Bun** as the runtime, **TypeScript**, **Elysia.js
 
 ## Quick Start
 
-### Build the library
+### Installation
 
 ```bash
-bun run build
+npm install @skyjt/breact.js
 ```
 
-### Link for local development
+Or with bun:
 
 ```bash
-bun link
+bun add @skyjt/breact.js
 ```
 
 ### Create a new project
 
 ```bash
-bunx create-breact-app my-app example
+bunx @skyjt/breact.js my-app example
 cd my-app
 bun install
-bun link breact.js
 bun run dev
 ```
 
-## Features
+### For local development
+
+```bash
+bun link
+bunx @skyjt/breact.js my-app example
+cd my-app
+bun install
+bun link @skyjt/breact.js
+bun run dev
+```
+
+## Build
 
 - **React-like Hooks API** with automatic dependency tracking
 - **Component Tree → Element Tree → DOM Tree** architecture

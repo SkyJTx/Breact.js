@@ -1,7 +1,10 @@
 {
-  "name": "breact.js",
+  "name": "@skyjt/breact.js",
   "version": "0.1.0",
   "description": "A full-stack framework using Bun, TypeScript, Elysia.js and a React-like frontend framework",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -25,10 +28,12 @@
     }
   },
   "files": [
-    "dist"
+    "*.js",
+    "cli/",
+    "README.md"
   ],
   "bin": {
-    "create-breact-app": "./dist/cli/index.js"
+    "create-breact-app": "./cli/index.js"
   },
   "scripts": {
     "build": "bun run build:lib && bun run build:cli",

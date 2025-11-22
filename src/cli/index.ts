@@ -11,14 +11,14 @@ console.log(`Creating Breact.js app (${template}) in ${targetDir}...`);
 
 await mkdir(targetDir, { recursive: true });
 
-const commonDependencies = {
-  elysia: "latest",
-  "@elysiajs/swagger": "latest",
-};
-
-const commonDevDependencies = {
-  "bun-types": "latest",
-};
+  const commonDependencies = {
+    "@skyjt/breact.js": "latest",
+    elysia: "latest",
+    "@elysiajs/swagger": "latest",
+  };
+  const commonDevDependencies = {
+    "bun-types": "latest",
+  };
 
 if (template === "example") {
   // Create Example Project
