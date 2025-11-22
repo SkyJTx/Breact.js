@@ -12,7 +12,6 @@ console.log(`Creating Breact.js app (${template}) in ${targetDir}...`);
 await mkdir(targetDir, { recursive: true });
 
 const commonDependencies = {
-  "breact.js": "latest",
   elysia: "latest",
   "@elysiajs/swagger": "latest",
 };
@@ -222,8 +221,10 @@ console.log('Server running on http://localhost:3000');
 }
 
 console.log("Done! Run:");
+console.log("  (Make sure you ran 'bun link' in the Breact.js folder first)");
 console.log(`cd ${projectName}`);
 console.log("bun install");
+console.log("bun link breact.js");
 if (template === "example") {
   console.log("bun run dev");
 } else {
