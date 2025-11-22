@@ -7,20 +7,20 @@ A full-stack framework using **Bun** as the runtime, **TypeScript**, **Elysia.js
 ### Installation
 
 ```bash
-npm install @skyjt/breact.js
+npm install @skyjt/breact
 ```
 
 Or with bun:
 
 ```bash
-bun add @skyjt/breact.js
+bun add @skyjt/breact
 ```
 
 ### Create a new project
 
 ```bash
 # Always use latest version to avoid cache issues
-bunx --latest @skyjt/breact.js my-app example
+bunx --latest @skyjt/breact my-app example
 cd my-app
 bun install
 bun run dev
@@ -29,17 +29,17 @@ bun run dev
 Or specify version explicitly:
 
 ```bash
-bunx @skyjt/breact.js@latest my-app example
+bunx @skyjt/breact@latest my-app example
 ```
 
 ### For local development
 
 ```bash
 bun link
-bunx @skyjt/breact.js my-app example
+bunx @skyjt/breact my-app example
 cd my-app
 bun install
-bun link @skyjt/breact.js
+bun link @skyjt/breact
 bun run dev
 ```
 
@@ -131,7 +131,7 @@ build.ts           # Build script
 ## Documentation
 
 - **[Generic Type Support Guide](./docs/GENERICS.md)** - Complete guide to type-safe development
-- Comprehensive examples available in generated projects using `bunx @skyjt/breact.js`
+- Comprehensive examples available in generated projects using `bunx @skyjt/breact`
 
 ## License
 

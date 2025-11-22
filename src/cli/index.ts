@@ -12,7 +12,7 @@ console.log(`Creating Breact.js app (${template}) in ${targetDir}...`);
 await mkdir(targetDir, { recursive: true });
 
 const commonDependencies = {
-  "@skyjt/breact.js": "latest",
+  "@skyjt/breact": "latest",
   elysia: "latest",
   "@elysiajs/swagger": "latest",
 };
@@ -63,7 +63,7 @@ if (template === "example") {
 
   // src/shared/components.ts
   const componentsTs = `
-import { Component, HTMLComponent, useState, ClientComponent, ServerComponent } from '@skyjt/breact.js';
+import { Component, HTMLComponent, useState, ClientComponent, ServerComponent } from '@skyjt/breact';
 
 @ClientComponent()
 export class Counter extends Component {
@@ -105,7 +105,7 @@ export class Navigation extends Component {
 
   // src/shared/pages.ts
   const pagesTs = `
-import { Component, HTMLComponent } from '@skyjt/breact.js';
+import { Component, HTMLComponent } from '@skyjt/breact';
 import { Counter, ServerMessage, Navigation } from './components.ts';
 
 export class HomePage extends Component {
@@ -136,7 +136,7 @@ export class DashboardPage extends Component {
 
   // src/shared/routes.ts
   const routesTs = `
-import { Router } from '@skyjt/breact.js';
+import { Router } from '@skyjt/breact';
 import { HomePage, DashboardPage } from './pages.ts';
 
 export const router = new Router([
@@ -148,7 +148,7 @@ export const router = new Router([
 
   // src/client.ts
   const clientTs = `
-import { render, RouterComponent } from '@skyjt/breact.js';
+import { render, RouterComponent } from '@skyjt/breact';
 import { router } from './shared/routes.ts';
 
 console.log('Hydrating...');
@@ -161,7 +161,7 @@ render(new RouterComponent(router, path), document.body);
   const serverTs = `
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
-import { renderToString, RouterComponent } from '@skyjt/breact.js';
+import { renderToString, RouterComponent } from '@skyjt/breact';
 import { router } from './shared/routes.ts';
 
 const app = new Elysia()
@@ -212,7 +212,7 @@ console.log(\`🦊 Server running at \${app.server?.hostname}:\${app.server?.por
   );
 
   const indexTs = `
-import { app } from '@skyjt/breact.js';
+import { app } from '@skyjt/breact';
 
 app.listen(3000);
 console.log('Server running on http://localhost:3000');

@@ -1,6 +1,6 @@
-# Generic Type Support in Breact.js
+# Generic Type Support in Breact
 
-Breact.js v0.1.4+ provides comprehensive generic type support for type-safe development.
+Breact v0.2.0+ provides comprehensive generic type support for type-safe development.
 
 ## Core Framework Generics
 
@@ -214,7 +214,7 @@ import type {
   BuildContext,
   Route,
   Component
-} from '@skyjt/breact.js';
+} from '@skyjt/breact';
 ```
 
 ## Future Enhancements
