@@ -84,6 +84,8 @@ async function build() {
         );
         // Fix src/ paths in root index.d.ts
         content = content.replace(/from\s+['"]\.\/src\//g, 'from "./');
+        // Fix @ paths to relative paths (preserve or remove .ts depending on context)
+        content = content.replace(/from\s+['"]@\/([^'"]+)['"]/g, 'from "./$1"');
         await writeFile(fullPath, content, "utf-8");
       }
     }

@@ -18,7 +18,12 @@ import {
 import { Router, RouterComponent, type Route } from "./src/shared/router.ts";
 import { renderToString } from "./src/server/ssr.ts";
 import { render } from "./src/client/dom.ts";
-import { app, startHMRServer, getHMRClientScript } from "./src/server/index.ts";
+import {
+  app,
+  startHMRServer,
+  getHMRClientScript,
+  generateHMRClientScript,
+} from "./src/server/index.ts";
 
 export {
   Component,
@@ -41,6 +46,7 @@ export {
   app,
   startHMRServer,
   getHMRClientScript,
+  generateHMRClientScript,
 };
 
 export type { BuildContext, Child, Route };

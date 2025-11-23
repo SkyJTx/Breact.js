@@ -37,6 +37,10 @@
   "exclude": [
     "./src/cli/templates/**/*",
     "./private/**/*",
-    "./public/**/*"
+    "./public/**/*",
+    "test-v7*",
+    "test-ssr-hmr",
+    "test-hmr-demo",
+    "dist"
   ]
 }

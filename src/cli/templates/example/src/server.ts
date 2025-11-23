@@ -4,22 +4,25 @@ import {
   renderToString,
   RouterComponent,
   startHMRServer,
-  getHMRClientScript,
+  generateHMRClientScript,
 } from "@skyjt/breact";
 import { router } from "./shared/routes";
 
 const isDev = process.env.NODE_ENV !== "production";
 
-// Start HMR server in development
-let hmr: Awaited<ReturnType<typeof startHMRServer>> | null = null;
+let hmrPort: number | undefined;
+
+// Start HMR server in development to handle client rebuilds
 if (isDev) {
-  hmr = await startHMRServer({
+  const hmrServer = await startHMRServer({
     watchDir: "./src",
     clientBuild: {
       entrypoint: "./src/client.ts",
       outdir: "./public",
     },
   });
+  hmrPort = hmrServer.port;
+  console.log(`🌐 [HMR] SSR HMR enabled on port ${hmrPort}`);
 }
 
 const app = new Elysia()
@@ -50,6 +53,7 @@ const app = new Elysia()
   .get("*", ({ request }) => {
     const url = new URL(request.url);
     const html = renderToString(new RouterComponent(router, url.pathname));
+    const hmrScript = isDev && hmrPort ? generateHMRClientScript(hmrPort) : "";
 
     return new Response(
       `
@@ -60,10 +64,8 @@ const app = new Elysia()
             </head>
             <body>
                 ${html}
-                <script type="module" src="/public/client.js${
-                  isDev ? `?v=${hmr?.version()}` : ""
-                }"></script>
-                ${isDev ? getHMRClientScript() : ""}
+                <script type="module" src="/public/client.js"></script>
+                ${hmrScript}
             </body>
             </html>
         `,

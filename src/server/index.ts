@@ -12,6 +12,10 @@ export const app = new Elysia().use(
   })
 );
 
-export { renderToString } from "@/server/ssr.ts";
-export { startHMRServer, getHMRClientScript } from "@/server/hmr.ts";
-export type { HMROptions } from "@/server/hmr.ts";
+export { renderToString } from "./ssr";
+export {
+  startHMRServer,
+  getHMRClientScript,
+  generateHMRClientScript,
+} from "./hmr";
+export type { HMROptions, HMRServer } from "./hmr";
