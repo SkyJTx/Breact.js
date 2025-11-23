@@ -23,44 +23,6 @@ class MockBuildContext extends BuildContext {
 }
 
 describe("Component", () => {
-  describe("Lifecycle Methods", () => {
-    test("should call onMount when component is mounted", () => {
-      let mountCalled = false;
-      class TestComponent extends Component {
-        override onMount(_context: BuildContext): void {
-          mountCalled = true;
-        }
-        override render(_context: BuildContext) {
-          return "test";
-        }
-      }
-
-      const component = new TestComponent();
-      const context = new MockBuildContext();
-      component.onMount(context);
-
-      expect(mountCalled).toBe(true);
-    });
-
-    test("should call onUnmount when component is unmounted", () => {
-      let unmountCalled = false;
-      class TestComponent extends Component {
-        override onUnmount(_context: BuildContext): void {
-          unmountCalled = true;
-        }
-        override render(_context: BuildContext) {
-          return "test";
-        }
-      }
-
-      const component = new TestComponent();
-      const context = new MockBuildContext();
-      component.onUnmount(context);
-
-      expect(unmountCalled).toBe(true);
-    });
-  });
-
   describe("Component Keys", () => {
     test("should accept key in constructor", () => {
       class TestComponent extends Component {

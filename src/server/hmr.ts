@@ -3,7 +3,6 @@
  * Runs on a separate port and handles file watching and client notifications
  */
 
-import { watch } from "fs";
 import { Elysia } from "elysia";
 
 const HMR_PORT = 3001;
@@ -24,13 +23,16 @@ export interface HMROptions {
   onRebuild?: () => Promise<void> | void;
 }
 
-export function startHMRServer(options: HMROptions = {}) {
+export async function startHMRServer(options: HMROptions = {}) {
   const {
     watchDir = "./src",
     extensions = [".ts", ".tsx", ".js", ".jsx"],
     clientBuild,
     onRebuild,
   } = options;
+
+  // Dynamic import to avoid bundling node:fs
+  const { watch } = await import("node:fs");
 
   // Watch for file changes
   watch(watchDir, { recursive: true }, async (_eventType, filename) => {
@@ -71,6 +73,14 @@ export function startHMRServer(options: HMROptions = {}) {
 
   // Start HMR server on separate port
   const hmrServer = new Elysia()
+    .all("/*", ({ set }) => {
+      // Add CORS headers to allow cross-origin requests
+      set.headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      };
+    })
     .get("/", () => {
       const stream = new ReadableStream({
         start(controller) {
@@ -86,6 +96,7 @@ export function startHMRServer(options: HMROptions = {}) {
           "Content-Type": "text/event-stream",
           "Cache-Control": "no-cache",
           Connection: "keep-alive",
+          "Access-Control-Allow-Origin": "*",
         },
       });
     })

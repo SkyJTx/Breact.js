@@ -4,6 +4,7 @@ import {
   Component,
   BuildContext,
   HTMLComponent,
+  useWatch,
 } from "../../src/shared/framework.ts";
 import { JSDOM } from "jsdom";
 
@@ -117,15 +118,15 @@ describe("DOM Rendering", () => {
       expect(clickHandler).toHaveBeenCalledTimes(1);
     });
 
-    test("should call onMount lifecycle method", () => {
+    test("should run useWatch on mount", () => {
       const container = document.createElement("div");
-      let mountCalled = false;
+      let effectCalled = false;
 
       class TestComponent extends Component {
-        override onMount(_context: BuildContext): void {
-          mountCalled = true;
-        }
         override render(_context: BuildContext) {
+          useWatch(() => {
+            effectCalled = true;
+          }, []);
           return "test";
         }
       }
@@ -134,7 +135,7 @@ describe("DOM Rendering", () => {
       const element = new DOMElement(component);
       element.mount(container);
 
-      expect(mountCalled).toBe(true);
+      expect(effectCalled).toBe(true);
     });
 
     test("should insert before specified node", () => {
@@ -166,15 +167,17 @@ describe("DOM Rendering", () => {
       expect(container.children.length).toBe(0);
     });
 
-    test("should call onUnmount lifecycle method", () => {
+    test("should run useWatch cleanup on unmount", () => {
       const container = document.createElement("div");
-      let unmountCalled = false;
+      let cleanupCalled = false;
 
       class TestComponent extends Component {
-        override onUnmount(_context: BuildContext): void {
-          unmountCalled = true;
-        }
         override render(_context: BuildContext) {
+          useWatch(() => {
+            return () => {
+              cleanupCalled = true;
+            };
+          }, []);
           return "test";
         }
       }
@@ -184,18 +187,20 @@ describe("DOM Rendering", () => {
       element.mount(container);
       element.unmount();
 
-      expect(unmountCalled).toBe(true);
+      expect(cleanupCalled).toBe(true);
     });
 
-    test("should unmount children recursively", () => {
+    test("should run useWatch cleanup for children recursively", () => {
       const container = document.createElement("div");
-      let childUnmountCalled = false;
+      let childCleanupCalled = false;
 
       class ChildComponent extends Component {
-        override onUnmount(_context: BuildContext): void {
-          childUnmountCalled = true;
-        }
         override render(_context: BuildContext) {
+          useWatch(() => {
+            return () => {
+              childCleanupCalled = true;
+            };
+          }, []);
           return "child";
         }
       }
@@ -211,7 +216,7 @@ describe("DOM Rendering", () => {
       element.mount(container);
       element.unmount();
 
-      expect(childUnmountCalled).toBe(true);
+      expect(childCleanupCalled).toBe(true);
     });
   });
 

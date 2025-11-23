@@ -2,6 +2,8 @@ export {
   Component,
   HTMLComponent,
   useState,
+  useWatch,
+  useWatchEffect,
   useEffect,
   useRoute,
   useRouter,

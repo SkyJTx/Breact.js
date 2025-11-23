@@ -56,7 +56,6 @@ export class SSRElement extends Element {
     }
 
     if (this.component instanceof Component) {
-      this.component._triggerMount(this.context);
     }
     const childOrChildren = this.component.render(this.context);
     setActiveElement(null);

@@ -1,7 +1,26 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
-import { renderToString, RouterComponent } from "@skyjt/breact";
+import {
+  renderToString,
+  RouterComponent,
+  startHMRServer,
+  getHMRClientScript,
+} from "@skyjt/breact";
 import { router } from "./shared/routes";
+
+const isDev = process.env.NODE_ENV !== "production";
+
+// Start HMR server in development
+let hmr: Awaited<ReturnType<typeof startHMRServer>> | null = null;
+if (isDev) {
+  hmr = await startHMRServer({
+    watchDir: "./src",
+    clientBuild: {
+      entrypoint: "./src/client.ts",
+      outdir: "./public",
+    },
+  });
+}
 
 const app = new Elysia()
   .use(swagger())
@@ -10,7 +29,10 @@ const app = new Elysia()
     const file = Bun.file("./public/client.js");
     if (await file.exists()) {
       return new Response(file, {
-        headers: { "Content-Type": "application/javascript" },
+        headers: {
+          "Content-Type": "application/javascript",
+          "Cache-Control": isDev ? "no-cache" : "public, max-age=31536000",
+        },
       });
     }
     // Fallback: build on demand
@@ -19,7 +41,10 @@ const app = new Elysia()
       target: "browser",
     });
     return new Response(build.outputs[0], {
-      headers: { "Content-Type": "application/javascript" },
+      headers: {
+        "Content-Type": "application/javascript",
+        "Cache-Control": "no-cache",
+      },
     });
   })
   .get("*", ({ request }) => {
@@ -35,7 +60,10 @@ const app = new Elysia()
             </head>
             <body>
                 ${html}
-                <script type="module" src="/public/client.js"></script>
+                <script type="module" src="/public/client.js${
+                  isDev ? `?v=${hmr?.version()}` : ""
+                }"></script>
+                ${isDev ? getHMRClientScript() : ""}
             </body>
             </html>
         `,
@@ -44,4 +72,6 @@ const app = new Elysia()
   })
   .listen(3000);
 
-console.log(`🦊 Server running at ${app.server?.hostname}:${app.server?.port}`);
+console.log(
+  `🦊 Server running at http://${app.server?.hostname}:${app.server?.port}`
+);

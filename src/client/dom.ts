@@ -55,8 +55,9 @@ export class DOMElement extends Element {
     }
 
     if (this.component instanceof Component) {
-      this.component._triggerMount(this.context);
+      // Lifecycle is now handled via useWatch/useWatchEffect, not onMount
     }
+
     this.performRebuild();
     this.dirty = false; // Mark as clean after initial render
   }
@@ -244,9 +245,9 @@ export class DOMElement extends Element {
     // Unmount children first
     this.children.forEach((c) => c.unmount());
 
-    // Call component lifecycle
+    // Call component lifecycle (now handled via useWatch cleanup)
     if (this.component instanceof Component) {
-      this.component._triggerUnmount(this.context);
+      // Lifecycle cleanup is handled via useWatch/useWatchEffect return function
     }
 
     // Remove from DOM

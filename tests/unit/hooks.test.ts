@@ -4,7 +4,8 @@ import {
   BuildContext,
   Element,
   useState,
-  useEffect,
+  useWatch,
+  useWatchEffect,
   setActiveElement,
   getActiveElement,
   getHookState,
@@ -255,8 +256,8 @@ describe("Hooks System", () => {
     });
   });
 
-  describe("useEffect Hook", () => {
-    test("should create effect hook with dependencies", () => {
+  describe("useWatch Hook", () => {
+    test("should create watch hook with dependencies", () => {
       const mockComponent = new (class extends Component {
         override render(_context: BuildContext) {
           return "test";
@@ -266,7 +267,7 @@ describe("Hooks System", () => {
       element.context = new MockBuildContext();
 
       setActiveElement(element);
-      useEffect(() => {
+      useWatch(() => {
         // Effect function
       }, []);
       setActiveElement(null);
@@ -277,7 +278,7 @@ describe("Hooks System", () => {
       expect(hooks[0].pending).toBe(true);
     });
 
-    test("should mark effect as pending when dependencies change", () => {
+    test("should mark watch as pending when dependencies change", () => {
       const mockComponent = new (class extends Component {
         override render(_context: BuildContext) {
           return "test";
@@ -288,19 +289,19 @@ describe("Hooks System", () => {
 
       // First render
       setActiveElement(element);
-      useEffect(() => {}, [1]);
+      useWatch(() => {}, [1]);
       setActiveElement(null);
 
       // Second render with changed deps
       setActiveElement(element);
-      useEffect(() => {}, [2]);
+      useWatch(() => {}, [2]);
       setActiveElement(null);
 
       const hooks = element.hooks;
       expect(hooks[0].pending).toBe(true);
     });
 
-    test("should not mark effect as pending when dependencies are the same", () => {
+    test("should not mark watch as pending when dependencies are the same", () => {
       const mockComponent = new (class extends Component {
         override render(_context: BuildContext) {
           return "test";
@@ -311,7 +312,7 @@ describe("Hooks System", () => {
 
       // First render
       setActiveElement(element);
-      useEffect(() => {}, [1, "test"]);
+      useWatch(() => {}, [1, "test"]);
       setActiveElement(null);
 
       // Manually mark as not pending (simulating effect run)
@@ -319,14 +320,14 @@ describe("Hooks System", () => {
 
       // Second render with same deps
       setActiveElement(element);
-      useEffect(() => {}, [1, "test"]);
+      useWatch(() => {}, [1, "test"]);
       setActiveElement(null);
 
       const hooks = element.hooks;
       expect(hooks[0].pending).toBe(false);
     });
 
-    test("should handle effect without dependencies (runs every time)", () => {
+    test("should handle useWatchEffect (runs every time)", () => {
       const mockComponent = new (class extends Component {
         override render(_context: BuildContext) {
           return "test";
@@ -336,7 +337,7 @@ describe("Hooks System", () => {
       element.context = new MockBuildContext();
 
       setActiveElement(element);
-      useEffect(() => {});
+      useWatchEffect(() => {});
       setActiveElement(null);
 
       // First effect should be pending
@@ -347,10 +348,10 @@ describe("Hooks System", () => {
 
       // Second render
       setActiveElement(element);
-      useEffect(() => {});
+      useWatchEffect(() => {});
       setActiveElement(null);
 
-      // Should be pending again
+      // Should be pending again (auto-tracking)
       expect(element.hooks[0].pending).toBe(true);
     });
 
@@ -365,13 +366,13 @@ describe("Hooks System", () => {
 
       const cleanup = () => {};
       setActiveElement(element);
-      useEffect(() => cleanup, []);
+      useWatch(() => cleanup, []);
       setActiveElement(null);
 
       expect(element.hooks[0].effect()).toBe(cleanup);
     });
 
-    test("should handle multiple useEffect calls", () => {
+    test("should handle multiple useWatch calls", () => {
       const mockComponent = new (class extends Component {
         override render(_context: BuildContext) {
           return "test";
@@ -381,9 +382,9 @@ describe("Hooks System", () => {
       element.context = new MockBuildContext();
 
       setActiveElement(element);
-      useEffect(() => {}, [1]);
-      useEffect(() => {}, [2]);
-      useEffect(() => {}, [3]);
+      useWatch(() => {}, [1]);
+      useWatch(() => {}, [2]);
+      useWatch(() => {}, [3]);
       setActiveElement(null);
 
       expect(element.hooks.length).toBe(3);

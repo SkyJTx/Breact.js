@@ -8,31 +8,11 @@ export abstract class Component {
     this.key = key;
   }
 
-  // Core lifecycle - called when component is first created (protected - called by framework)
-  protected onMount(_context: BuildContext): void {
-    // Override in subclass if needed
-  }
-
-  // Called when component is being replaced/removed (protected - called by framework)
-  protected onUnmount(_context: BuildContext): void {
-    // Override in subclass if needed
-  }
-
   // Main render method - override in subclass
-  // Can use hooks here (useState, useEffect, etc.)
+  // Use hooks here (useState, useEffect, etc.)
+  // Use useEffect(() => { /* mount */ return () => { /* unmount */ } }, []) for lifecycle
   render(_context: BuildContext): Child {
     return null;
-  }
-
-  // Public API for Element implementations to trigger lifecycle
-  /** @internal - Called by Element implementations only */
-  _triggerMount(context: BuildContext): void {
-    this.onMount(context);
-  }
-
-  /** @internal - Called by Element implementations only */
-  _triggerUnmount(context: BuildContext): void {
-    this.onUnmount(context);
   }
 
   // Helper to identify server/client components

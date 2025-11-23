@@ -47,6 +47,7 @@ async function build() {
     "--sourcemap=external",
     "--minify-whitespace",
     "--minify-syntax",
+    "--external:node:fs",
   ]);
   if (libCode !== 0) {
     console.error("❌ Library build failed");

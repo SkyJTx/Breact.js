@@ -37,6 +37,8 @@ export {
   setRouterContext,
   getRouterContext,
   useState,
+  useWatch,
+  useWatchEffect,
   useEffect,
   useRoute,
   useRouter,

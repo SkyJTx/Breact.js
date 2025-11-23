@@ -71,23 +71,21 @@ export function useState<T>(
   return [hooks[idx] as T, setState];
 }
 
-interface EffectHook {
+interface WatchHook {
   deps?: unknown[];
   effect: () => void | (() => void);
   cleanup?: () => void;
   pending: boolean;
 }
 
-export function useEffect(effect: () => void | (() => void), deps?: unknown[]) {
-  const hooks = getHookState() as EffectHook[];
+// useWatch - Requires explicit dependencies (Vue-inspired)
+export function useWatch(effect: () => void | (() => void), deps: unknown[]) {
+  const hooks = getHookState() as WatchHook[];
   const idx = getHookIndex();
 
   const oldHook = hooks[idx];
   const hasChanged =
-    !oldHook ||
-    !deps ||
-    !oldHook.deps ||
-    deps.some((d, i) => d !== oldHook.deps![i]);
+    !oldHook || !oldHook.deps || deps.some((d, i) => d !== oldHook.deps![i]);
 
   if (hasChanged) {
     hooks[idx] = { deps, effect, cleanup: oldHook?.cleanup, pending: true };
@@ -95,6 +93,19 @@ export function useEffect(effect: () => void | (() => void), deps?: unknown[]) {
     hooks[idx] = oldHook;
   }
 }
+
+// useWatchEffect - Auto-tracks dependencies (runs on every render)
+export function useWatchEffect(effect: () => void | (() => void)) {
+  const hooks = getHookState() as WatchHook[];
+  const idx = getHookIndex();
+
+  const oldHook = hooks[idx];
+  // Always run on every render (auto-tracking behavior)
+  hooks[idx] = { effect, cleanup: oldHook?.cleanup, pending: true };
+}
+
+// Legacy alias for backwards compatibility
+export const useEffect = useWatch;
 
 // ============================================================================
 // Router Hooks

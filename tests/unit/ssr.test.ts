@@ -5,6 +5,7 @@ import {
   BuildContext,
   HTMLComponent,
   useState,
+  useWatch,
 } from "../../src/shared/framework.ts";
 
 describe("Server-Side Rendering", () => {
@@ -104,20 +105,21 @@ describe("Server-Side Rendering", () => {
       expect(result).toBe("<p>Hello</p>");
     });
 
-    test("should call onMount lifecycle method", () => {
-      let mountCalled = false;
+    test("should NOT run useWatch during SSR", () => {
+      let effectCalled = false;
 
       class TestComponent extends Component {
-        override onMount(_context: BuildContext): void {
-          mountCalled = true;
-        }
         override render(_context: BuildContext) {
+          useWatch(() => {
+            effectCalled = true;
+          }, []);
           return "test";
         }
       }
 
       renderToString(new TestComponent());
-      expect(mountCalled).toBe(true);
+      // Effects should NOT run during SSR (they're client-side only)
+      expect(effectCalled).toBe(false);
     });
 
     test("should render nested components", () => {
