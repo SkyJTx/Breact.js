@@ -1,6 +1,6 @@
 {
   "name": "@skyjt/breact",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A full-stack framework using Bun, TypeScript, Elysia.js and a React-like frontend framework",
   "publishConfig": {
     "access": "public"
