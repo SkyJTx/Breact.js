@@ -54,7 +54,9 @@ export class DOMElement extends Element {
       return; // Text nodes don't have children/render
     }
 
-    this.component.onInit(this.context);
+    if (this.component instanceof Component) {
+      this.component.onMount(this.context);
+    }
     this.performRebuild();
   }
 
@@ -76,6 +78,11 @@ export class DOMElement extends Element {
   }
 
   performRebuild(): void {
+    // Only components have render methods, primitives don't need rebuilding
+    if (!(this.component instanceof Component)) {
+      return;
+    }
+
     setActiveElement(this);
     const childOrChildren = this.component.render(this.context);
     setActiveElement(null);
@@ -213,17 +220,23 @@ export class DOMElement extends Element {
   }
 
   update(newComponent: Component): void {
-    const oldComponent = this.component;
     this.component = newComponent;
-    this.component.onComponentUpdate(oldComponent);
-    this.component.onDepsUpdate(this.context);
     this.performRebuild();
   }
 
   unmount(): void {
-    this.component.onDispose(this.context);
+    // Run cleanup for all effects
     this.hooks.forEach((h) => h.cleanup && h.cleanup());
+
+    // Unmount children first
     this.children.forEach((c) => c.unmount());
+
+    // Call component lifecycle
+    if (this.component instanceof Component) {
+      this.component.onUnmount(this.context);
+    }
+
+    // Remove from DOM
     if (this.nativeNode && this.nativeNode.parentNode) {
       this.nativeNode.parentNode.removeChild(this.nativeNode);
     }

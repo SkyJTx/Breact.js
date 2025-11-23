@@ -5,6 +5,7 @@ import {
   HTMLComponent,
   setActiveElement,
 } from "../shared/framework.ts";
+import styleObjectToCssString from "style-object-to-css-string";
 
 export class SSRBuildContext extends BuildContext {
   get<T>(_type: any): T | undefined {
@@ -54,7 +55,9 @@ export class SSRElement extends Element {
       return String(this.component);
     }
 
-    this.component.onInit(this.context);
+    if (this.component instanceof Component) {
+      this.component.onMount(this.context);
+    }
     const childOrChildren = this.component.render(this.context);
     setActiveElement(null);
 
@@ -77,6 +80,14 @@ export class SSRElement extends Element {
           if (k === "className") return `class="${v}"`;
           if (k.startsWith("on")) return ""; // Skip events
           if (k === "children") return "";
+          if (k === "style") {
+            if (typeof v === "object" && v !== null) {
+              // Use library to safely convert style object to CSS string
+              const cssString = styleObjectToCssString(v);
+              return cssString ? `style="${cssString}"` : "";
+            }
+            return ""; // Skip null, undefined, or non-object styles
+          }
           return `${k}="${v}"`;
         })
         .filter(Boolean)

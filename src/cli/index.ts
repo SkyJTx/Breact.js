@@ -165,6 +165,7 @@ import { Component, HTMLComponent, useState, ClientComponent, ServerComponent } 
 @ClientComponent()
 export class Counter extends Component {
     render() {
+        // useState MUST be called inside render(), not as a class property
         const [count, setCount] = useState(0);
         return new HTMLComponent('div', { style: { border: '1px solid #ccc', padding: '10px', margin: '10px' } }, [
             new HTMLComponent('h3', {}, ['CSR Component (Counter)']),
@@ -241,6 +242,9 @@ export const router = new Router([
   const clientTs = `
 import { render, RouterComponent } from '@skyjt/breact';
 import { router } from './shared/routes.ts';
+
+// Clear server-rendered content before hydrating
+document.body.innerHTML = '';
 
 console.log('Hydrating...');
 const path = window.location.pathname;

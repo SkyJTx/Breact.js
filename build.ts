@@ -44,10 +44,68 @@ async function build() {
     "./dist",
     "--format",
     "esm",
+    "--sourcemap=external",
+    "--minify-whitespace",
+    "--minify-syntax",
   ]);
   if (libCode !== 0) {
     console.error("❌ Library build failed");
     process.exit(1);
+  }
+
+  // Generate TypeScript declarations
+  console.log("\nGenerating TypeScript declarations...");
+  const dtsCode = await run("bun", ["tsc", "--project", "tsconfig.build.json"]);
+  if (dtsCode !== 0) {
+    console.error("❌ Declaration generation failed");
+    process.exit(1);
+  }
+
+  // Fix declaration file paths (remove .ts extensions and fix src paths)
+  console.log("\nFixing declaration file paths...");
+  const { readdir, readFile, writeFile } = await import("node:fs/promises");
+  const { join } = await import("path");
+
+  async function fixDtsFiles(dir: string) {
+    const entries = await readdir(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        await fixDtsFiles(fullPath);
+      } else if (entry.name.endsWith(".d.ts")) {
+        let content = await readFile(fullPath, "utf-8");
+        // Remove .ts extensions from imports
+        content = content.replace(
+          /from\s+['"](\.\.?\/[^'"]+)\.ts['"]/g,
+          'from "$1"'
+        );
+        // Fix src/ paths in root index.d.ts
+        content = content.replace(/from\s+['"]\.\/src\//g, 'from "./');
+        await writeFile(fullPath, content, "utf-8");
+      }
+    }
+  }
+
+  await fixDtsFiles("dist");
+
+  // Reorganize dist structure - move src/* to dist/
+  console.log("\nReorganizing dist structure...");
+  const { rename: renameAsync } = await import("node:fs/promises");
+
+  // Move dist/src/client -> dist/client
+  // Move dist/src/server -> dist/server
+  // Move dist/src/shared -> dist/shared
+  try {
+    await renameAsync("dist/src/client", "dist/client");
+    await renameAsync("dist/src/server", "dist/server");
+    await renameAsync("dist/src/shared", "dist/shared");
+    // Remove empty src directory
+    await rm("dist/src", { recursive: true });
+    console.log("  ✓ Moved src/* to root");
+  } catch (e) {
+    console.warn("  ⚠ Could not reorganize dist structure:", e);
   }
 
   // Build CLI
@@ -98,6 +156,11 @@ async function build() {
 
   // Remove files array as we're publishing entire dist folder
   delete pkg.files;
+
+  // Fix bin path for published package (relative to dist folder)
+  pkg.bin = {
+    breact: "./cli/index.js",
+  };
 
   // Remove build scripts from published package
   delete pkg.scripts.build;

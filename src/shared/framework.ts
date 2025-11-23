@@ -12,13 +12,14 @@ export abstract class Component {
     this.key = key;
   }
 
-  onInit(_context: BuildContext): void {}
-  onDepsUpdate(_context: BuildContext): void {}
+  // Core lifecycle - called when component is first created
+  onMount(_context: BuildContext): void {}
 
+  // Called when component is being replaced/removed
+  onUnmount(_context: BuildContext): void {}
+
+  // Main render method - must be implemented
   abstract render(context: BuildContext): Child;
-
-  onComponentUpdate(_oldComponent: Component): void {}
-  onDispose(_context: BuildContext): void {}
 
   // Helper to identify server/client components
   static isServer: boolean = false;
@@ -55,7 +56,10 @@ export function setActiveElement(el: Element | null) {
 }
 
 export function getActiveElement(): Element {
-  if (!currentElement) throw new Error("Hook called outside of render");
+  if (!currentElement)
+    throw new Error(
+      "Hook called outside of render(). Hooks such as useState() must be invoked during Component.render() or another hook."
+    );
   return currentElement;
 }
 
