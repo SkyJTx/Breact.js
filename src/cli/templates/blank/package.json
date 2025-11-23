@@ -1,0 +1,13 @@
+{
+  "name": "{{projectName}}",
+  "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@skyjt/breact": "latest",
+    "elysia": "latest",
+    "@elysiajs/swagger": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}

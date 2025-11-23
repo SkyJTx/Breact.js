@@ -54,7 +54,7 @@ describe("Element", () => {
   describe("Element Creation", () => {
     test("should create element with component", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -67,7 +67,7 @@ describe("Element", () => {
 
     test("should initialize with empty children array", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -81,7 +81,7 @@ describe("Element", () => {
 
     test("should initialize as dirty", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -94,7 +94,7 @@ describe("Element", () => {
 
     test("should not have parent initially", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -109,7 +109,7 @@ describe("Element", () => {
   describe("Element Hierarchy", () => {
     test("should set parent reference", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -124,7 +124,7 @@ describe("Element", () => {
 
     test("should manage children array", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -142,7 +142,7 @@ describe("Element", () => {
 
     test("should support nested hierarchy", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -166,7 +166,7 @@ describe("Element", () => {
   describe("Element Lifecycle", () => {
     test("should call mount", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -179,7 +179,7 @@ describe("Element", () => {
 
     test("should call update", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -193,7 +193,7 @@ describe("Element", () => {
 
     test("should call unmount", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -206,7 +206,7 @@ describe("Element", () => {
 
     test("should call markNeedsBuild", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -219,7 +219,7 @@ describe("Element", () => {
 
     test("should call performRebuild", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -234,7 +234,7 @@ describe("Element", () => {
   describe("Element Context", () => {
     test("should have context reference", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -248,7 +248,7 @@ describe("Element", () => {
 
     test("should access context properties", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -262,7 +262,7 @@ describe("Element", () => {
 
     test("should use context to get services", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -286,7 +286,7 @@ describe("Element", () => {
   describe("Element State", () => {
     test("should track dirty state", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -309,7 +309,7 @@ describe("Element", () => {
           super();
           this.value = value;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return String(this.value);
         }
       }
@@ -344,7 +344,7 @@ describe("Element", () => {
       expect(() => {
         new IncompleteElement(
           new (class extends Component {
-            render() {
+            override render() {
               return "test";
             }
           })()
@@ -378,7 +378,7 @@ describe("Element", () => {
       }
 
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -401,7 +401,7 @@ describe("Element", () => {
   describe("Element Component Relationship", () => {
     test("should maintain bidirectional relationship via parent", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -427,7 +427,7 @@ describe("Element", () => {
           super();
           this.name = name;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return this.name;
         }
       }

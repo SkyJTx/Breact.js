@@ -3,14 +3,21 @@ import {
   BuildContext,
   type Child,
   HTMLComponent,
+  setRouterContext,
 } from "./framework.ts";
 
-export type Route<TParams = any> = {
+// Route information object returned by useRoute()
+export interface RouteInfo<TParams = Record<string, unknown>> {
+  path: string;
+  route: Route<TParams>;
+}
+
+export type Route<TParams = Record<string, unknown>> = {
   path: string;
   component: (params?: TParams) => Component;
 };
 
-export class Router<TRoutes extends Route[] = Route[]> {
+export class Router<TRoutes extends readonly Route<any>[] = Route[]> {
   routes: TRoutes;
 
   constructor(routes: TRoutes) {
@@ -20,6 +27,10 @@ export class Router<TRoutes extends Route[] = Route[]> {
   match(path: string): Component | null {
     const route = this.routes.find((r) => r.path === path); // Simple exact match
     return route ? route.component() : null;
+  }
+
+  getRoute(path: string) {
+    return this.routes.find((r) => r.path === path);
   }
 }
 
@@ -35,7 +46,15 @@ export class RouterComponent<
     this.currentPath = initialPath;
   }
 
-  render(_context: BuildContext): Child {
+  override render(_context: BuildContext): Child {
+    const route = this.router.getRoute(this.currentPath);
+
+    // Set router context for useRoute and useRouter hooks
+    setRouterContext(
+      this.router,
+      route ? { path: this.currentPath, route } : null
+    );
+
     const component = this.router.match(this.currentPath);
     if (!component) return new HTMLComponent("div", {}, ["404 Not Found"]);
     return component;

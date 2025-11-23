@@ -4,7 +4,7 @@ import {
   BuildContext,
   HTMLComponent,
   setActiveElement,
-} from "../shared/framework.ts";
+} from "@/shared/framework.ts";
 
 export class DOMBuildContext extends BuildContext {
   private _inherited: Map<any, any> = new Map();
@@ -55,9 +55,10 @@ export class DOMElement extends Element {
     }
 
     if (this.component instanceof Component) {
-      this.component.onMount(this.context);
+      this.component._triggerMount(this.context);
     }
     this.performRebuild();
+    this.dirty = false; // Mark as clean after initial render
   }
 
   updateNativeProps(props: Record<string, any>) {
@@ -220,6 +221,18 @@ export class DOMElement extends Element {
   }
 
   update(newComponent: Component): void {
+    // Handle primitive updates (text nodes)
+    if (typeof newComponent === "string" || typeof newComponent === "number") {
+      const newText = String(newComponent);
+      if (this.nativeNode && this.nativeNode instanceof Text) {
+        if (this.nativeNode.textContent !== newText) {
+          this.nativeNode.textContent = newText;
+        }
+      }
+      this.component = newComponent;
+      return;
+    }
+
     this.component = newComponent;
     this.performRebuild();
   }
@@ -233,7 +246,7 @@ export class DOMElement extends Element {
 
     // Call component lifecycle
     if (this.component instanceof Component) {
-      this.component.onUnmount(this.context);
+      this.component._triggerUnmount(this.context);
     }
 
     // Remove from DOM

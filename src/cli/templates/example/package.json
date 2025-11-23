@@ -1,0 +1,17 @@
+{
+  "name": "{{projectName}}",
+  "module": "src/server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run build:client && bun run --watch src/server.ts",
+    "build:client": "bun build ./src/client.ts --outdir ./public --target browser --minify"
+  },
+  "dependencies": {
+    "@skyjt/breact": "latest",
+    "elysia": "latest",
+    "@elysiajs/swagger": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}

@@ -4,7 +4,7 @@ import {
   BuildContext,
   HTMLComponent,
   setActiveElement,
-} from "../shared/framework.ts";
+} from "@/shared/framework.ts";
 import styleObjectToCssString from "style-object-to-css-string";
 
 export class SSRBuildContext extends BuildContext {
@@ -56,7 +56,7 @@ export class SSRElement extends Element {
     }
 
     if (this.component instanceof Component) {
-      this.component.onMount(this.context);
+      this.component._triggerMount(this.context);
     }
     const childOrChildren = this.component.render(this.context);
     setActiveElement(null);

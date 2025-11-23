@@ -36,7 +36,7 @@ describe("Server Integration", () => {
   describe("SSR Integration with Elysia", () => {
     test("should serve SSR rendered HTML", () => {
       class AppComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("html", {}, [
             new HTMLComponent("body", {}, [
               new HTMLComponent("h1", {}, ["Server Rendered"]),
@@ -59,13 +59,13 @@ describe("Server Integration", () => {
 
     test("should render different components for different routes", () => {
       class HomeComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, ["Home Page"]);
         }
       }
 
       class AboutComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, ["About Page"]);
         }
       }
@@ -85,7 +85,7 @@ describe("Server Integration", () => {
           super();
           this.data = data;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, [
             `User: ${this.data.name}, Age: ${this.data.age}`,
           ]);
@@ -238,7 +238,7 @@ describe("Server Integration", () => {
           super();
           this.children = children;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("html", {}, [
             new HTMLComponent("head", {}, [
               new HTMLComponent("meta", { charset: "UTF-8" }),
@@ -253,7 +253,7 @@ describe("Server Integration", () => {
       }
 
       class HomePage extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, [
             new HTMLComponent("h1", {}, ["Welcome"]),
             new HTMLComponent("p", {}, ["This is the home page"]),
@@ -289,7 +289,7 @@ describe("Server Integration", () => {
           super();
           this.user = user;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", { className: "profile" }, [
             new HTMLComponent("h2", {}, [this.user.name]),
             new HTMLComponent("p", {}, [`Email: ${this.user.email}`]),
@@ -331,7 +331,7 @@ describe("Server Integration", () => {
   describe("Hybrid SSR/CSR Setup", () => {
     test("should support both SSR and client-side hydration", () => {
       class HybridComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           const isServer = !_context.isHydrated;
           return new HTMLComponent("div", {}, [
             isServer ? "Rendered on Server" : "Hydrated on Client",
@@ -345,7 +345,7 @@ describe("Server Integration", () => {
 
     test("should include client bundle script", () => {
       class AppWithClient extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("html", {}, [
             new HTMLComponent("head", {}, [
               new HTMLComponent("script", {

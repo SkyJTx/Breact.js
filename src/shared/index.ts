@@ -3,11 +3,18 @@ export {
   HTMLComponent,
   useState,
   useEffect,
+  useRoute,
+  useRouter,
   ClientComponent,
   ServerComponent,
+  css,
+  scss,
+  sass,
   type Child,
   type BuildContext,
   setActiveElement,
   getActiveElement,
+  setRouterContext,
+  getRouterContext,
 } from "./framework.ts";
 export { Router, RouterComponent, type Route } from "./router.ts";

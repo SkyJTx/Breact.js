@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "module": "esnext",
+        "target": "esnext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "jsx": "react-jsx",
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": [
+            "bun-types"
+        ]
+    }
+}

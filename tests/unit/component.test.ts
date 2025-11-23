@@ -30,7 +30,7 @@ describe("Component", () => {
         override onMount(_context: BuildContext): void {
           mountCalled = true;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -48,7 +48,7 @@ describe("Component", () => {
         override onUnmount(_context: BuildContext): void {
           unmountCalled = true;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -64,7 +64,7 @@ describe("Component", () => {
   describe("Component Keys", () => {
     test("should accept key in constructor", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -75,7 +75,7 @@ describe("Component", () => {
 
     test("should accept numeric key", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -86,7 +86,7 @@ describe("Component", () => {
 
     test("should have undefined key by default", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -99,7 +99,7 @@ describe("Component", () => {
   describe("Component Render", () => {
     test("should render string children", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "Hello World";
         }
       }
@@ -113,7 +113,7 @@ describe("Component", () => {
 
     test("should render number children", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return 42;
         }
       }
@@ -127,7 +127,7 @@ describe("Component", () => {
 
     test("should render array of children", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return ["Hello", " ", "World"];
         }
       }
@@ -142,7 +142,7 @@ describe("Component", () => {
 
     test("should render null", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return null;
         }
       }
@@ -156,13 +156,13 @@ describe("Component", () => {
 
     test("should render nested components", () => {
       class ChildComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "Child";
         }
       }
 
       class ParentComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new ChildComponent();
         }
       }
@@ -178,7 +178,7 @@ describe("Component", () => {
   describe("Static Properties", () => {
     test("should have isServer and isClient as false by default", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }

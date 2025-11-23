@@ -17,7 +17,7 @@ describe("DOM Rendering", () => {
   describe("DOMElement Creation", () => {
     test("should create DOMElement from Component", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -125,7 +125,7 @@ describe("DOM Rendering", () => {
         override onMount(_context: BuildContext): void {
           mountCalled = true;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -174,7 +174,7 @@ describe("DOM Rendering", () => {
         override onUnmount(_context: BuildContext): void {
           unmountCalled = true;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -195,13 +195,13 @@ describe("DOM Rendering", () => {
         override onUnmount(_context: BuildContext): void {
           childUnmountCalled = true;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "child";
         }
       }
 
       class ParentComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new ChildComponent();
         }
       }
@@ -225,14 +225,14 @@ describe("DOM Rendering", () => {
           super(key);
           this.value = value;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, [this.value]);
         }
       }
 
       const parent = new (class extends Component {
         children: Component[] = [];
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return this.children;
         }
       })();
@@ -264,7 +264,7 @@ describe("DOM Rendering", () => {
 
       class ParentComponent extends Component {
         children: any[] = [];
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return this.children;
         }
       }
@@ -287,7 +287,7 @@ describe("DOM Rendering", () => {
 
       class ParentComponent extends Component {
         children: any[] = [];
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return this.children;
         }
       }
@@ -309,7 +309,7 @@ describe("DOM Rendering", () => {
       const container = document.createElement("div");
 
       class ParentComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return ["A", null, "B", undefined, "C"];
         }
       }
@@ -327,7 +327,7 @@ describe("DOM Rendering", () => {
       const container = document.createElement("div");
 
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("h1", {}, ["Hello World"]);
         }
       }
@@ -341,7 +341,7 @@ describe("DOM Rendering", () => {
       const container = document.createElement("div");
 
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -357,7 +357,7 @@ describe("DOM Rendering", () => {
       const container = document.createElement("div");
 
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -376,7 +376,7 @@ describe("DOM Rendering", () => {
       const container = document.createElement("div");
 
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }

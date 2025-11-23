@@ -28,7 +28,7 @@ describe("Router", () => {
           path: "/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Home";
               }
             })(),
@@ -37,7 +37,7 @@ describe("Router", () => {
           path: "/about",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "About";
               }
             })(),
@@ -59,7 +59,7 @@ describe("Router", () => {
     test("should match exact path", () => {
       const homeComponent = () =>
         new (class extends Component {
-          render(_context: BuildContext) {
+          override render(_context: BuildContext) {
             return "Home";
           }
         })();
@@ -70,7 +70,7 @@ describe("Router", () => {
           path: "/about",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "About";
               }
             })(),
@@ -89,7 +89,7 @@ describe("Router", () => {
           path: "/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Home";
               }
             })(),
@@ -108,7 +108,7 @@ describe("Router", () => {
           path: "/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Home";
               }
             })(),
@@ -117,7 +117,7 @@ describe("Router", () => {
           path: "/about",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "About";
               }
             })(),
@@ -126,7 +126,7 @@ describe("Router", () => {
           path: "/contact",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Contact";
               }
             })(),
@@ -146,7 +146,7 @@ describe("Router", () => {
           path: "/About",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "About";
               }
             })(),
@@ -169,7 +169,7 @@ describe("Router", () => {
           component: () => {
             firstCalled = true;
             return new (class extends Component {
-              render() {
+              override render() {
                 return "First";
               }
             })();
@@ -180,7 +180,7 @@ describe("Router", () => {
           component: () => {
             secondCalled = true;
             return new (class extends Component {
-              render() {
+              override render() {
                 return "Second";
               }
             })();
@@ -205,7 +205,7 @@ describe("Router", () => {
           component: () => {
             factoryCalled = true;
             return new (class extends Component {
-              render(_context: BuildContext) {
+              override render(_context: BuildContext) {
                 return "Test";
               }
             })();
@@ -221,7 +221,7 @@ describe("Router", () => {
 
     test("should return component instance from factory", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "Test";
         }
       }
@@ -244,7 +244,7 @@ describe("Router", () => {
           path: "/user",
           component: (params?: UserParams) => {
             return new (class extends Component {
-              render(_context: BuildContext) {
+              override render(_context: BuildContext) {
                 return `User ${params?.id || "unknown"}`;
               }
             })();
@@ -266,7 +266,7 @@ describe("RouterComponent", () => {
           path: "/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Home";
               }
             })(),
@@ -285,7 +285,7 @@ describe("RouterComponent", () => {
           path: "/about",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "About";
               }
             })(),
@@ -301,7 +301,7 @@ describe("RouterComponent", () => {
   describe("RouterComponent Rendering", () => {
     test("should render matched component", () => {
       class HomeComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("h1", {}, ["Home Page"]);
         }
       }
@@ -323,7 +323,7 @@ describe("RouterComponent", () => {
           path: "/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Home";
               }
             })(),
@@ -344,13 +344,13 @@ describe("RouterComponent", () => {
 
     test("should update when currentPath changes", () => {
       class HomeComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "Home";
         }
       }
 
       class AboutComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "About";
         }
       }
@@ -375,7 +375,7 @@ describe("RouterComponent", () => {
   describe("RouterComponent with Different Route Types", () => {
     test("should work with various component types", () => {
       class CustomComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, ["Custom"]);
         }
       }
@@ -420,7 +420,7 @@ describe("RouterComponent", () => {
           path: "/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Home";
               }
             })(),
@@ -429,7 +429,7 @@ describe("RouterComponent", () => {
           path: "/page1",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Page1";
               }
             })(),
@@ -438,7 +438,7 @@ describe("RouterComponent", () => {
           path: "/page2",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Page2";
               }
             })(),
@@ -471,7 +471,7 @@ describe("RouterComponent", () => {
           path: "",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Empty";
               }
             })(),
@@ -491,7 +491,7 @@ describe("RouterComponent", () => {
           path: "/about/",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "About";
               }
             })(),
@@ -511,7 +511,7 @@ describe("RouterComponent", () => {
           path: "/search",
           component: () =>
             new (class extends Component {
-              render() {
+              override render() {
                 return "Search";
               }
             })(),

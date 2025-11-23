@@ -46,7 +46,7 @@ describe("Hooks System", () => {
 
     test("should allow hooks when active element is set", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -62,7 +62,7 @@ describe("Hooks System", () => {
 
     test("should reset hook index when setting active element", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -87,7 +87,7 @@ describe("Hooks System", () => {
 
     test("should return current active element", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -105,7 +105,7 @@ describe("Hooks System", () => {
   describe("useState Hook", () => {
     test("should initialize state with initial value", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -121,7 +121,7 @@ describe("Hooks System", () => {
 
     test("should return same state on subsequent renders", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -145,7 +145,7 @@ describe("Hooks System", () => {
 
     test("should update state with new value", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -166,7 +166,7 @@ describe("Hooks System", () => {
 
     test("should update state with updater function", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -188,7 +188,7 @@ describe("Hooks System", () => {
 
     test("should not trigger rebuild if value is the same", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -209,7 +209,7 @@ describe("Hooks System", () => {
 
     test("should handle multiple useState calls", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -229,7 +229,7 @@ describe("Hooks System", () => {
 
     test("should maintain separate state for different hooks", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -258,7 +258,7 @@ describe("Hooks System", () => {
   describe("useEffect Hook", () => {
     test("should create effect hook with dependencies", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -279,7 +279,7 @@ describe("Hooks System", () => {
 
     test("should mark effect as pending when dependencies change", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -302,7 +302,7 @@ describe("Hooks System", () => {
 
     test("should not mark effect as pending when dependencies are the same", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -328,7 +328,7 @@ describe("Hooks System", () => {
 
     test("should handle effect without dependencies (runs every time)", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -356,7 +356,7 @@ describe("Hooks System", () => {
 
     test("should store cleanup function", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -373,7 +373,7 @@ describe("Hooks System", () => {
 
     test("should handle multiple useEffect calls", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -396,7 +396,7 @@ describe("Hooks System", () => {
   describe("Hook State Management", () => {
     test("should initialize hooks array on first access", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();
@@ -413,7 +413,7 @@ describe("Hooks System", () => {
 
     test("should return same hooks array on subsequent calls", () => {
       const mockComponent = new (class extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       })();

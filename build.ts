@@ -117,12 +117,24 @@ async function build() {
     "./dist/cli",
     "--format",
     "esm",
+    "--target",
+    "node",
     "--external:node:fs/promises",
     "--external:path",
   ]);
   if (cliCode !== 0) {
     console.error("❌ CLI build failed");
     process.exit(1);
+  }
+
+  // Copy CLI templates
+  console.log("\nCopying CLI templates...");
+  const { cp } = await import("node:fs/promises");
+  try {
+    await cp("src/cli/templates", "dist/cli/templates", { recursive: true });
+    console.log("  ✓ Templates copied");
+  } catch (e) {
+    console.warn("  ⚠ Could not copy templates:", e);
   }
 
   // Copy package.json, README, and LICENSE

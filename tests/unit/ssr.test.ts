@@ -95,7 +95,7 @@ describe("Server-Side Rendering", () => {
   describe("SSR Component Rendering", () => {
     test("should render custom component", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("p", {}, ["Hello"]);
         }
       }
@@ -111,7 +111,7 @@ describe("Server-Side Rendering", () => {
         override onMount(_context: BuildContext): void {
           mountCalled = true;
         }
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -122,13 +122,13 @@ describe("Server-Side Rendering", () => {
 
     test("should render nested components", () => {
       class ChildComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("span", {}, ["child"]);
         }
       }
 
       class ParentComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, [new ChildComponent()]);
         }
       }
@@ -139,7 +139,7 @@ describe("Server-Side Rendering", () => {
 
     test("should render array of children", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return [
             new HTMLComponent("h1", {}, ["Title"]),
             new HTMLComponent("p", {}, ["Content"]),
@@ -153,7 +153,7 @@ describe("Server-Side Rendering", () => {
 
     test("should filter out null and undefined children", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return ["A", null, "B", undefined, "C"];
         }
       }
@@ -164,7 +164,7 @@ describe("Server-Side Rendering", () => {
 
     test("should flatten nested arrays", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return [
             ["A", "B"],
             ["C", "D"],
@@ -180,7 +180,7 @@ describe("Server-Side Rendering", () => {
   describe("SSR with Hooks", () => {
     test("should work with useState during SSR", () => {
       class CounterComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           const [count] = useState(0);
           return new HTMLComponent("div", {}, [`Count: ${count}`]);
         }
@@ -192,7 +192,7 @@ describe("Server-Side Rendering", () => {
 
     test("should maintain hook state within render", () => {
       class MultiStateComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           const [name] = useState("John");
           const [age] = useState(30);
           return new HTMLComponent("div", {}, [`${name} is ${age}`]);
@@ -209,7 +209,7 @@ describe("Server-Side Rendering", () => {
       let hydrated: boolean | undefined;
 
       class TestComponent extends Component {
-        render(context: BuildContext) {
+        override render(context: BuildContext) {
           hydrated = context.isHydrated;
           return "test";
         }
@@ -223,7 +223,7 @@ describe("Server-Side Rendering", () => {
       let retrievedValue: any;
 
       class TestComponent extends Component {
-        render(context: BuildContext) {
+        override render(context: BuildContext) {
           retrievedValue = context.get("something");
           return "test";
         }
@@ -237,7 +237,7 @@ describe("Server-Side Rendering", () => {
   describe("SSR Complex Scenarios", () => {
     test("should render complete HTML structure", () => {
       class AppComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("html", {}, [
             new HTMLComponent("head", {}, [
               new HTMLComponent("title", {}, ["My App"]),
@@ -263,7 +263,7 @@ describe("Server-Side Rendering", () => {
 
     test("should handle mixed content types", () => {
       class MixedComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return new HTMLComponent("div", {}, [
             "Text ",
             123,
@@ -279,7 +279,7 @@ describe("Server-Side Rendering", () => {
 
     test("should render list of items", () => {
       class ListComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           const items = ["Apple", "Banana", "Cherry"];
           return new HTMLComponent(
             "ul",
@@ -299,7 +299,7 @@ describe("Server-Side Rendering", () => {
   describe("SSRElement", () => {
     test("should create SSRElement", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -310,7 +310,7 @@ describe("Server-Side Rendering", () => {
 
     test("should have hooks array", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -321,7 +321,7 @@ describe("Server-Side Rendering", () => {
 
     test("mount should be no-op", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -332,7 +332,7 @@ describe("Server-Side Rendering", () => {
 
     test("update should be no-op", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -343,7 +343,7 @@ describe("Server-Side Rendering", () => {
 
     test("unmount should be no-op", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -354,7 +354,7 @@ describe("Server-Side Rendering", () => {
 
     test("markNeedsBuild should be no-op", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
@@ -365,7 +365,7 @@ describe("Server-Side Rendering", () => {
 
     test("performRebuild should be no-op", () => {
       class TestComponent extends Component {
-        render(_context: BuildContext) {
+        override render(_context: BuildContext) {
           return "test";
         }
       }
